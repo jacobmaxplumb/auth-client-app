@@ -1,6 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
+import { userSignedIn, userSignedOut } from "../redux";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -21,12 +22,18 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
-export const signInUser = () => {
+export const signInUser = () => dispatch => {
   signInWithPopup(auth, provider).then(result => {
       result.user.getIdToken().then(res => {
-          localStorage.setItem('authToken', res);
+          dispatch(userSignedIn(res));
       }).catch(err => {
           localStorage.removeItem('authToken');
       }) 
+  })
+}
+
+export const logout = () => dispatch => {
+  signOut(auth).then(() => {
+    dispatch(userSignedOut());
   })
 }
