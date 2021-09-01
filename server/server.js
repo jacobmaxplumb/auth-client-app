@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const { verifyToken } = require('./firebase-service');
+const { verifyToken, verifyTokenExists } = require('./firebase-service');
 const app = express();
 
 app.use(cors());
