@@ -14,13 +14,12 @@ const verifyToken = (req, res, next) => {
     if (req.headers.authorization) {
         const token = req.headers.authorization.split(' ')[1];
         admin.auth().verifyIdToken(token).then((res) => {
-            console.log(res);
             next();
         }).catch(err => {
-            res.send({ data: 'unable to log in' });
+            res.send({ data: err });
         })
     } else {
-        res.send({ data: 'unable to log in' });
+        res.send({ data: 'no token provided' });
     }
 }
 
