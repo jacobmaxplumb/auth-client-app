@@ -23,7 +23,21 @@ const verifyToken = (req, res, next) => {
     }
 }
 
+const verifyTokenExists = (req, res) => {
+    if (req.headers.authorization) {
+        const token = req.headers.authorization.split(' ')[1];
+        admin.auth().verifyIdToken(token).then((res) => {
+            res.send({data: res});
+        }).catch(err => {
+            res.send({ data: err });
+        })
+    } else {
+        res.send({ data: 'no token provided' });
+    }
+}
+
 module.exports = {
-    verifyToken
+    verifyToken,
+    verifyTokenExists
 }
 
