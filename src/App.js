@@ -1,19 +1,11 @@
-import { connect } from 'react-redux';
-import { signInUser } from './actions/user.actions';
+import { signInUser } from './api/user.api'
 import './App.css';
 
-function App(props){
+function App(){
   return (
     <div className="App">
-      <button onClick={() => props.signInUser()}>click</button>
+      <button onClick={() => signInUser()}>click</button>
     </div>
   );
 }
-
-const mapStateToProps = state => {
-  return {
-    user: state.user
-  }
-}
-
-export default connect(mapStateToProps, { signInUser })(App);
+export default App;

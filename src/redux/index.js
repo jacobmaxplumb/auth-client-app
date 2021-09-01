@@ -1,11 +1,21 @@
 import { applyMiddleware, createStore } from "redux";
 import { combineReducers } from "redux";
-import { userReducer } from "./user.reducer";
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from "redux-thunk";
 
+const initialState = {
+    data: null
+}
+
+const sharedReducer = (state = initialState, action) => {
+    switch(action.type) {
+        default:
+            return state;
+    }
+}
+
 const reducer = combineReducers({
-    user: userReducer
+    shared: sharedReducer
 });
 
 export const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));
