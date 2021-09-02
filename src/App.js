@@ -13,9 +13,6 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
-  footer: {
-    background: theme.color
-  },
   menuButton: {
     marginRight: theme.spacing(2),
   },
@@ -25,15 +22,39 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function App() {
+  const [anchorEl, setAnchorEl] = useState(null);
   const classes = useStyles();
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  }
+
+  const handleOpen = e => {
+    setAnchorEl(e.currentTarget);
+  }
+
+
 
   return (
     <div className={classes}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={handleOpen}>
             <MenuIcon />
           </IconButton>
+          <Menu>
+            <Menu
+              id="simple-menu"
+              anchorEl={anchorEl}
+              keepMounted
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+            >
+              <MenuItem onClick={handleClose}>Profile</MenuItem>
+              <MenuItem onClick={handleClose}>My account</MenuItem>
+              <MenuItem onClick={handleClose}>Logout</MenuItem>
+            </Menu>
+          </Menu>
           <Typography variant="h6" className={classes.title}>
             My App
           </Typography>
