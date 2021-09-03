@@ -22,17 +22,18 @@ const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
 export const signInUser = () => {
-  signInWithPopup(auth, provider).then(result => {
+  return signInWithPopup(auth, provider).then(result => {
+      console.log(result);
       result.user.getIdToken().then(res => {
-          console.log(res);
+          localStorage.setItem('token', res);
       }).catch(err => {
-          console.log(err)
+          localStorage.removeItem('token');
       }) 
   })
 }
 
 export const logout = () => {
   signOut(auth).then(() => {
-    console.log('Logged Out');
+    localStorage.removeItem('token');
   })
 }
