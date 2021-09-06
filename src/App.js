@@ -9,7 +9,10 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Landing from './components/Landing';
 import { Menu, MenuItem } from '@material-ui/core';
-import { getProtectedDataCall, getWelcomeMessage } from './api/data.api';
+import { getProtectedDataCall } from './api/data.api';
+import { BrowserRouter, Switch, Link, Route } from 'react-router-dom';
+import Profile from './components/Profile';
+import PrivateRoute from './components/PrivateRoute';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,46 +50,55 @@ function App() {
     })
   }
 
-
   return (
     <div className={classes}>
-      {loggedIn ? (
-        <AppBar position="static">
-          <Toolbar>
-            <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={handleOpen}>
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="simple-menu"
-              anchorEl={anchorEl}
-              keepMounted
-              open={Boolean(anchorEl)}
-              onClose={handleClose}
-            >
-              <MenuItem onClick={handleClose}>Profile</MenuItem>
-              <MenuItem onClick={handleClose}>My account</MenuItem>
-              <MenuItem onClick={handleClose}>Logout</MenuItem>
-            </Menu>
-            <Typography variant="h6" className={classes.title}>
-              My App
-            </Typography>
-            <Button color="inherit" onClick={logoutUser}>Logout</Button>
-            <Button color="inherit" onClick={getProtectedDataCall}>Get Protect</Button>
-          </Toolbar>
-        </AppBar>
-      ) : (
-        <AppBar position="static">
-          <Toolbar>
-            <Typography variant="h6" className={classes.title}>
-              My App
-            </Typography>
-            <Button color="inherit" onClick={loginUser}>Login</Button>
-            <Button color="inherit" onClick={getProtectedDataCall}>Get Protect</Button>
-          </Toolbar>
-        </AppBar>
-      )}
+      <BrowserRouter>
+        {loggedIn ? (
+          <AppBar position="static">
+            <Toolbar>
+              <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={handleOpen}>
+                <MenuIcon />
+              </IconButton>
+              <Menu
+                id="simple-menu"
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+              >
+                <Link to="/">
+                  <MenuItem onClick={handleClose}>Home</MenuItem>
+                </Link>
+                <Link to="/profile">
+                  <MenuItem onClick={handleClose}>Profile</MenuItem>
+                </Link>
 
-      <Landing />
+              </Menu>
+              <Typography variant="h6" className={classes.title}>
+                My App
+              </Typography>
+              <Button color="inherit" onClick={logoutUser}>Logout</Button>
+              <Button color="inherit" onClick={getProtectedDataCall}>Get Protect</Button>
+            </Toolbar>
+          </AppBar>
+        ) : (
+          <AppBar position="static">
+            <Toolbar>
+              <Typography variant="h6" className={classes.title}>
+                My App
+              </Typography>
+              <Button color="inherit" onClick={loginUser}>Login</Button>
+              <Button color="inherit" onClick={getProtectedDataCall}>Get Protect</Button>
+            </Toolbar>
+          </AppBar>
+        )}
+        <Switch>
+          <Route exact path="/">
+            <Landing />
+          </Route>
+          <PrivateRoute somthing="work 1" path="/profile" component={Profile} />
+        </Switch>
+      </BrowserRouter>
     </div>
   );
 }
